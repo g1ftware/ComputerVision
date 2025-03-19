@@ -1,5 +1,5 @@
 
-#Exercise 1. Face tracking example using KLT tracker#
+**Exercise 1. Face tracking example using KLT tracker**
 
 Run the example as instructed below and answer the questions.
 
@@ -18,6 +18,6 @@ Using a Pyramid Approach: The KLT tracker can be enhanced with a pyramid structu
 Adjusting Frame Rate: Reducing the frame rate in cases of fast movement can help the tracker maintain feature positions better across frames. e) Voluntary task: Capture a video of your own face or of a picture of a face, and check that whether the tracking works for you. That is, replace the input video path in faceTrackingDemo.py with the path to your own video.
 
 
-#Exercise 2. Kanade-Lucas-Tomasi (KLT) feature tracking (Pen & paper problem)#
+#Exercise 2. Kanade-Lucas-Tomasi (KLT) feature tracking (Pen & paper problem)
 
 Read Sections 2.1 and 2.2 from the paper by Baker and Matthews. Show that the Equation (10) in the paper gives the same solution as the equations on slide 25 of Lecture 7, when the geometric warping W (between the current frame and the template window in the previous frame) is a translation.
