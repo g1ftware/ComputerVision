@@ -1,1 +1,29 @@
+Exercise round 07
+Exercise 1 - Comparing bags-of-words with tf-idf weighting
+Exercise 2 - Precision and recall
+There is a database of 10000 images and a user, who is only interested in images which contain a car. It is known that there are 500 such images in the database. An automatic image retrieval system retrieves 300 car images and 50 other images from the database. Determine and report the precision and recall of the retrieval system in this particular case.
+Exercise 3 - VGG practical on object instance recognition
 
+## Part I: Sparse features for matching object instances
+Stage I.A: SIFT features detector
+The SIFT feature has both a detector and a descriptor. We will start by computing and visualizing the SIFT feature detections for two images of the same object (a building facade). Load an image, rotate and scale it, and then display the original and transformed pair:
+Stage I.B: SIFT features detectors and matching between images
+Next we will use the descriptor computed over each detection to match the detections between images. We will start with the simplest matching scheme (first nearest neighbour of descriptors) and then add more sophisticated methods to eliminate any mismatches.
+Visualize the SIFT descriptors for the detected feature frames by plotting the precomputed descriptor frames. Then use plotframe to overlay the corresponding frames.
+Stage I.C: Improving SIFT matching using Lowe’s second nearest neighbour test
+Lowe introduced a second nearest neighbour (2nd NN) test to identify, and hence remove, ambiguous matches. The idea is to identify distinctive matches by a threshold on the ratio of first to second NN distances. In the cell below, the ratio is nnThreshold = 1NN distance / 2NN distance.
+Vary the ratio nnThreshold in a range from 0.1 to 0.9, and examine how the number of matches and number of mismatches changes.
+A value of nnThreshold = 0.8 is often a good compromise between losing too many matches and rejecting mismatches.
+Question: Examine some of the remaining mismatches to understand why they have occurred. How could they be removed?
+Some of the remaining mismatches occur due to changes in lighting, repetitive patterns, and slight perspective differences between the two images. Lighting variations can alter gradient information, causing incorrect correspondences, especially in regions with shadows or reflections. Repetitive architectural elements like windows or columns often confuse the matching process, as similar-looking structures are incorrectly matched. Perspective shifts, although handled to some extent by SIFT, may still cause mismatches if the angle changes significantly. To remove these mismatches, geometric verification using RANSAC can be applied to ensure that matches follow a consistent transformation model. The ratio test can also be fine-tuned to reject ambiguous matches where the nearest and second-nearest neighbors are too similar. Additionally, applying affine or epipolar constraints can help by enforcing physical consistency in the matches, further reducing errors.
+Stage I.D: Improving SIFT matching using a geometric transformation
+In addition to the 2nd NN test, we can also require consistency between the matches and a geometric transformation between the images. For the moment we will look for matches that are consistent with a similarity transformation
+which consists of a rotation by θ, an isotropic scaling (i.e. same in all directions) by s, and a translation by a vector  (𝑡𝑥,𝑡𝑦) . This transformation is specified by four parameters  (𝑠,𝜃,𝑡𝑥,𝑡𝑦)  and can be computed from a single correspondence between SIFT detections in each image.
+
+
+## Part II: Affine co-variant detectors
+So far the change in viewpoint between images has been a similarity transformation. Now we consider more severe viewpoint changes - for example where an object is fronto-parallel in one view, and turns away from the camera in the other as in the graffiti wall images below:
+
+
+Part III: Towards large scale retrieval
+In large scale retrieval the goal is to match a query image to a large database of images (for example the WWW or Wikipedia). The quality of a match is measured as the number of geometrically verified feature correspondences between the query and a database image. While the techniques discussed in Part I and II are sufficient to do this, in practice they require too much memory to store the SIFT descriptors for all the detections in all the database images. We explore next two key ideas: one to reduce the memory footprint and pre-compute descriptor matches; the other to speed up image retrieval.
